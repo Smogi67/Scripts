@@ -1,0 +1,46 @@
+getgenv().FpsGui = true
+
+-- Erstellt ein ScreenGui-Objekt und fügt es dem Spielerbildschirm hinzu
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Erstellt ein Frame-Objekt, das das GUI-Element enthält
+local frame = Instance.new("Frame")
+frame.Position = UDim2.new(0, 10, 1, -30) -- Positioniert das Frame-Objekt in der linken unteren Ecke
+frame.Size = UDim2.new(0, 100, 0, 20) -- Legt die Größe des Frames fest
+frame.BackgroundTransparency = 0.5 -- Legt die Transparenz des Hintergrunds fest
+frame.BackgroundColor3 = Color3.new(0, 0, 0) -- Legt die Hintergrundfarbe fest
+frame.BorderSizePixel = 0 -- Entfernt die Rahmenanzeige
+frame.Parent = screenGui
+frame.Active =  true
+frame.Draggable =  true
+
+-- Erstellt ein TextLabel-Objekt, das die FPS anzeigt
+local fpsLabel = Instance.new("TextLabel")
+fpsLabel.Position = UDim2.new(0, 0, 0, 0) -- Positioniert das Label-Objekt innerhalb des Frame-Objekts
+fpsLabel.Size = UDim2.new(1, 0, 1, 0) -- Legt die Größe des Label-Objekts auf die Größe des Frame-Objekts fest
+fpsLabel.BackgroundTransparency = 1 -- Entfernt die Hintergrundanzeige
+fpsLabel.TextColor3 = Color3.new(1, 1, 1) -- Legt die Schriftfarbe auf Weiß fest
+fpsLabel.Font = Enum.Font.SourceSansBold -- Legt die Schriftart auf SourceSansBold fest
+fpsLabel.TextSize = 17 -- Legt die Schriftgröße auf 14 Pixel fest
+fpsLabel.Text = "FPS: 0" -- Legt den anfänglichen Text des Labels auf "FPS: 0" fest
+fpsLabel.Parent = frame
+
+-- Erstellt eine Funktion, die die FPS aktualisiert
+local function updateFps()
+    local fps = math.floor(1 / game:GetService("RunService").RenderStepped:wait())
+    fpsLabel.Text = "FPS: " .. fps
+end
+
+-- Funktion zum Aktualisieren der Sichtbarkeit des GUIs basierend auf dem Wert von getgenv().FpsGui
+local function updateGuiVisibility()
+    if getgenv().FpsGui then
+        frame.Visible = true
+    else
+        frame.Visible = false
+    end
+end
+
+-- Ruft die Funktionen auf, um die FPS anzuzeigen und regelmäßig zu aktualisieren sowie die Sichtbarkeit des GUIs zu aktualisieren
+game:GetService("RunService").RenderStepped:connect(updateFps)
+game:GetService("RunService").Heartbeat:connect(updateGuiVisibility)
