@@ -1,2 +1,0 @@
-getgenv().key = "key_MJ28w3CGMoDNZBSVGn9J"
-loadstring(request({Url="https://bloxburg.gg/api/script/getScript/"..getgenv().key}).Body)()
